@@ -1,4 +1,4 @@
-# <Japanese Sake Meguri>
+# Japanese Sake Meguri
 
 ## サイト概要
 ### サイトテーマ
