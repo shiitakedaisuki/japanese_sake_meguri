@@ -1,0 +1,11 @@
+<% @post.each do |post| %>
+<div>
+  <%= link_to public_post_path(post.id) do %>
+    <%= image_tag post.get_image %>
+  <% end %>
+  <p>投稿ユーザー画像：<%= image_tag 'no_image.jpg' %></p>
+  <p>お酒名：<%= post.name %></p>
+  <p>レビュー：<%= post.review %></p>
+  <p>ユーザーネーム：<%= post.user.user_name %></p>
+</div>
+<% end %>
