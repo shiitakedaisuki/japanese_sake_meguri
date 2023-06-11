@@ -11,9 +11,7 @@ Rails.application.routes.draw do
     # 顧客用 namespaceを使うと、全てのpathにpublic/が最初につく
     namespace :public do
       # :posts do patch....を追加すると/posts/:idにPATCHメソッドが送信されると、PostsControllerのupdateアクションが呼び出されるようになる?????
-      resources :posts do
-        patch :update, on: :member
-      end
+      resources :posts
     end
     
     # 管理者用
