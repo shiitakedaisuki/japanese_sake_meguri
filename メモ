@@ -2,7 +2,7 @@
 
 git status で 今現在変更が無いことを確認する
 
-git branch -b 好きなブランチ名
+git checkout -b 好きなブランチ名
 で新しいブランチを作る
 git status で ちゃんと作れているか確認する
 
