@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
     # 顧客用
-    # URL /customers/sign_in ...
+    # URL /users/sign_in ...
     devise_for :users,skip: [:passwords], controllers: {
       registrations: "public/registrations",
       sessions: 'public/sessions'
@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     namespace :public do
       # :posts do patch....を追加すると/posts/:idにPATCHメソッドが送信されると、PostsControllerのupdateアクションが呼び出されるようになる?????
       resources :posts
+      # URLを指定したいのでresourcesは使用できない。
+      get "users/infomation/my_page"=>"users#show", as: 'users_show'
+      get "users/infomation/edit"=>"users#edit", as: 'users_edit'
+      patch "users/infomation"=>"users#update", as: 'users_update'
+      get "users/confirm"=>"users#confirm", as: 'users_confirm'
+      patch "users/quit"=>"users#quit", as: 'users_quit'
     end
     
     # 管理者用

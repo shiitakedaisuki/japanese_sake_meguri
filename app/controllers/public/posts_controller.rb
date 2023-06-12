@@ -6,11 +6,11 @@ class Public::PostsController < ApplicationController
   
   # 投稿データの保存
   def create
-    @post = Post.new(image_params)
+    @post = Post.new(post_params)
     @post.user_id = current_user.id
     if @post.valid?
       @post.save
-      flash[:notice] = "投稿が成功しました"
+      flash[:notice] = "投稿しました"
       redirect_to public_post_path(@post)
     else
       render :new
@@ -49,7 +49,7 @@ class Public::PostsController < ApplicationController
   # 投稿データのストロングパラメータ
   private
 
-  def image_params
+  def post_params
     params.require(:post).permit(:name, :image, :review)
   end
   
