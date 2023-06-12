@@ -1,34 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>JapaneseSakeMeguri</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <head>
+      <title>JapaneseSakeMeguri</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+      
+      <script src="https://kit.fontawesome.com/5afbf8a978.js" crossorigin="anonymous"></script>
+      <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    </head>
     
-    <script src="https://kit.fontawesome.com/5afbf8a978.js" crossorigin="anonymous"></script>
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
-  <body>
-    <header>
-    <% if user_signed_in? %>
-      <li>
-        <%= link_to '投稿フォーム', new_public_post_path %>
-      </li>
-      <li>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-      </li>
-    <% else %>
-      <li>
-        <%= link_to "新規登録", new_user_registration_path %>
-      </li>
-      <li>
-        <%= link_to "ログイン", new_user_session_path %>
-      </li>
-    <% end %>
-    </header>
-    <%= yield %>
-  </body>
+    <body>
+      <!--三項演算子を使用して条件分岐。もし管理者がログインしている場合は、文字列 "admin_header"が表示される。-->
+      <header class="<%= (admin_signed_in? ? "admin_header" : "" ) %>">
+        <div class="header-content">
+          <!--↓三項演算子を使用して条件分岐。管理者がログインしている場合、admin_top_path（管理者トップページへのパス）-->
+          <!--ログインしていない場合は、root_pathで通常のトップページへのリンクを表示する。-->
+        <%= link_to 'JapaneseSakeMeguri', (admin_signed_in? ? admin_top_path : root_path ), class: "logo" %>
+          <ul class="flex">
+            <% if admin_signed_in? %>
+              <li><%#= link_to 'ユーザー一覧',  admin_items_path %></li>
+              <li><%#= link_to 'ジャンル一覧',  admin_genres_path %></li>
+              <li><%#= link_to '投稿一覧',  admin_orders_path %></li>
+              <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %></li>
+            <% elsif user_signed_in? %>
+              <p>ようこそ、<%= current_customer.full_name %>さん!</p>
+              <li><%#= link_to 'マイページ', mypage_path %></li>
+              <li><%= link_to '投稿する', new_public_post_path %></li>
+              <li><%= link_to '投稿一覧', public_posts_path %></li>
+              <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to '新規登録', new_user_registration_path %></li>
+              <li><%= link_to 'ログイン', new_user_session_path %></li>
+              <li><%= link_to '投稿一覧', public_posts_path %></li>
+              <li><%= link_to 'About us', about_path %></li>
+            <% end %>
+          </ul>
+          <%# if admin_signed_in? %>
+            <%#= form_tag(admin_search_path, method: :get) do %>
+              <%#= text_field_tag "search[content]", "", :placeholder =>"会員: 姓,名,セイ,メイ / 商品: 商品名" %>
+              <%#= select_tag "search[model]", options_for_select({ "会員" => "customer", "商品" => "item" }) %>
+              <%#= select_tag "search[method]", options_for_select({ "部分一致" => "partial", "前方一致" => "forward", "後方一致" => "backward", "完全一致" => "perfect" }) %>
+              <%#= submit_tag '検索', class: "btn btn-primary" %>
+            <%# end %>
+          <%# end %>
+          
+        </div>
+      </header>
+      
+       <main>
+        <%= yield %>
+      </main>
+      
+      <footer>Copyright © Infratop Inc. All Rights Reserved.</footer>
+     </body>
 </html>
