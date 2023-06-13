@@ -1,7 +1,7 @@
 <h2>プロフィール編集</h2>
-<%= form_with model: @user, url: public_users_show_path(@post) do |f| %>
+<%= form_with model: @user, url: public_users_update_path(@user) do |f| %>
     <label for="inputName">Name</label>
-    <%= f.text_field :name, autofocus: true, id:"inputName", placeholder:"ユーザーネーム"%>
+    <%= f.text_field :user_name, autofocus: true, id:"inputName", placeholder:"ユーザーネーム"%>
     <label for="inputImage">ProfileImage</label>
     <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
     <%= f.submit "変更を保存" %>

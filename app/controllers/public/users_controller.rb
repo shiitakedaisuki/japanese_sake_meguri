@@ -11,9 +11,9 @@ class Public::UsersController < ApplicationController
   def update
       user = current_user
       if user.update(user_params)
-        redirect_to public_user_show_path, notice: '更新が完了いたしました。'
+        redirect_to public_users_show_path, notice: '更新が完了いたしました。'
       else
-        redirect_to public_user_edit_path, notice: '更新できませんでした。'
+        redirect_to public_users_edit_path, notice: '更新できませんでした。'
       end
   end
   
