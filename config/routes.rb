@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       # URLを指定したいのでresourcesは使用できない。
       get "users/infomation/my_page"=>"users#show", as: 'users_show'
       get "users/infomation/edit"=>"users#edit", as: 'users_edit'
-      patch "users/infomation"=>"users#update", as: 'users_update'
+      patch "users/infomation/my_page"=>"users#update", as: 'users_update'
       get "users/confirm"=>"users#confirm", as: 'users_confirm'
       patch "users/quit"=>"users#quit", as: 'users_quit'
     end
