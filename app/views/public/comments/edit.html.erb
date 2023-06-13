@@ -1,0 +1,6 @@
+<h2>コメントを編集する</h2>
+<!--@comment.post は、コメントが所属する投稿（Post）オブジェクト。-->
+<%= form_with model: [@comment.post, @comment], url: public_post_comment_path(@comment.post, @comment), method: :patch do |f| %>
+  <%= f.text_area :comment, rows: '5', placeholder: "Edit your comment" %>
+  <%= f.submit "Update Comment" %>
+<% end %>
