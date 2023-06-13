@@ -19,6 +19,7 @@
   <p>お酒名：<%= post.name %></p>
   <p>レビュー文：<%= post.review %></p>
   <p>ユーザーネーム：<%= post.user.user_name %></p>
+  <p><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
 </div>
 <% end %>
 
