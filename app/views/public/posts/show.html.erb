@@ -3,7 +3,7 @@
   <%= image_tag @post.get_image %>
   <p>お酒名：<%= @post.name %></p>
   <p>レビュー文：<%= @post.review %></p>
-  <p>投稿ユーザー画像：<%= image_tag 'no_image.jpg' %></p>
+  <p>投稿ユーザー画像：<%= image_tag @post.user.get_profile_image(100,100) %></p>
   <p>ユーザーネーム：<%= @post.user.user_name %></p>
   <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
   

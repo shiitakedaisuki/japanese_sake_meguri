@@ -1,7 +1,11 @@
 <!-- ユーザーの詳細 -->
 <div>
-  <h3><%= @user.user_name %></h3>
-  <%= image_tag @user.get_profile_image(100, 100) %>
+    <h3><%= @user.user_name %></h3>
+    <%= image_tag @user.get_profile_image(100, 100) %>
+    <% if @user == current_user %>
+      <p><%= link_to "プロフィールを編集する",  public_users_edit_path,class:"btn btn-outline-secondary" %></p>
+      <p><%= link_to "退会する",  public_users_confirm_path,class:"btn btn-outline-secondary" %></p>
+    <% end %>
 </div>
 
 <!-- ユーザーの投稿一覧 -->
@@ -18,5 +22,3 @@
 </div>
 <% end %>
 
-<%= link_to "編集する",  public_users_edit_path,class:"btn btn-outline-secondary" %>
-<%= link_to "退会する",  public_users_confirm_path,class:"btn btn-outline-secondary" %>
