@@ -5,6 +5,13 @@ Rails.application.routes.draw do
       registrations: "public/registrations",
       sessions: 'public/sessions'
     }
+    # 管理者用
+    # URL /admin/sign_in ...
+    devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
+      sessions: "admin/sessions"
+    }
+    
+    
     root to: "public/homes#top"
     get "public/homes/about"=>"public/homes#about", as: 'about'
     
@@ -24,11 +31,7 @@ Rails.application.routes.draw do
       patch "users/quit"=>"users#quit", as: 'users_quit'
     end
     
-    # 管理者用
-    # URL /admin/sign_in ...
-    devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
-      sessions: "admin/sessions"
-    }
+    
      # 管理者用
   namespace :admin do
     root to: "homes#top"

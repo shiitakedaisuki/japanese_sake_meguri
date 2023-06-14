@@ -15,9 +15,9 @@
       <!--三項演算子を使用して条件分岐。もし管理者がログインしている場合は、文字列 "admin_header"が表示される。-->
       <header class="<%= (admin_signed_in? ? "admin_header" : "" ) %>">
         <div class="header-content">
-          <!--↓三項演算子を使用して条件分岐。管理者がログインしている場合、admin_top_path（管理者トップページへのパス）-->
+          <!--↓三項演算子を使用して条件分岐。管理者がログインしている場合、admin_top_path（管理者トップページへのパス）A(admin_signed_in?)が正しかったらB(admin_top_path)が実行され、Aが偽だったらC(root_path)が実行される-->
           <!--ログインしていない場合は、root_pathで通常のトップページへのリンクを表示する。-->
-        <%= link_to 'JapaneseSakeMeguri', (admin_signed_in? ? admin_top_path : root_path ), class: "logo" %>
+        <%= link_to 'JapaneseSakeMeguri', (admin_signed_in? ? admin_root_path : root_path ), class: "logo" %>
           <ul class="flex">
             <% if admin_signed_in? %>
               <li><%#= link_to 'ユーザー一覧',  admin_items_path %></li>
