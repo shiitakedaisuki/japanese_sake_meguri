@@ -1,12 +1,27 @@
 <% @post.each do |post| %>
 <div>
   <%= link_to public_post_path(post.id) do %>
-    <%= image_tag post.get_image %>
+    <%= image_tag post.get_image(300,400) %>
   <% end %>
    <p>投稿ユーザー画像：<%= image_tag post.user.get_profile_image(100,100) %></p>
   <p>お酒名：<%= post.name %></p>
   <p>レビュー：<%= post.review %></p>
   <p>ユーザーネーム：<%= post.user.user_name %></p>
+  <!--投稿画像に付けられた「いいね」に、自分（ログインしているユーザ）が含まれているかをfavorited_by?メソッドで判定-->
+<!--  <#% if @post.favorited_by?(current_user) %>-->
+<!--    <p>-->
+<!--      <#%= link_to public_post_favorites_path(@post), method: :delete do %>-->
+<!--        ♥<#%= @post.favorites.count %> いいね-->
+<!--      <#% end %>-->
+<!--    </p>-->
+<!--    <#% else %>-->
+<!--    <p>-->
+<!--      <#%= link_to public_post_favorites_path(@post), method: :post do %>-->
+<!--        ♡<#%= @post.favorites.count %> いいね-->
+<!--      <#% end %>-->
+<!--    </p>-->
+<!--  <#% end %>-->
+<!--</div>-->
   <p><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
 </div>
 <% end %>
