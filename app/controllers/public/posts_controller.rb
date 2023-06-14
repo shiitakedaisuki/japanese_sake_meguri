@@ -43,8 +43,13 @@ class Public::PostsController < ApplicationController
   
   def destroy
     post = Post.find(params[:id])
-    post.destroy
-    redirect_to public_posts_path
+    # ||はorという意味。AかBどちらかがtrueだったら実行される
+    if post.user_id == current_user.id || current_admin
+      post.destroy
+      redirect_to public_posts_path
+    else
+      redirect_to root_path, alert: "不正な操作です。"
+    end
   end
   
   # 投稿データのストロングパラメータ
