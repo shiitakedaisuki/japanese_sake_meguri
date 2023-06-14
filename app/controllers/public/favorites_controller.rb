@@ -1,16 +1,23 @@
 class Public::FavoritesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :find_post
+  
   def create
-    post = Post.find(params[:post_id])
-    favorite = current_user.favorites.new(post_id: post.id)
+    favorite = current_user.favorites.new(post_id: @post.id)
     favorite.save
-    # 投稿詳細画面へリダイレクト
-    redirect_to public_post_path(post_image)
+    # 投稿一覧画面へリダイレクト
+    redirect_to public_posts_path
   end
 
   def destroy
-    post = Post.find(params[:post_id])
-    favorite = current_user.favorites.find_by(post_id: post.id)
+    favorite = current_user.favorites.find_by(post_id: @post.id)
     favorite.destroy
-    redirect_to ppublic_post_path(post_image)
+    redirect_to public_posts_path
+  end
+  
+  private
+  
+  def find_post
+    @post = Post.find(params[:post_id])
   end
 end
