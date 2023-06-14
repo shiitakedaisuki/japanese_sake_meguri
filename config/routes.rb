@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         resource :favorites, only: [:create, :destroy]
         resources :comments, only: [:create, :edit, :update, :destroy]
       end
+      get "search" => "searches#search"
       # URLを指定したいのでresourcesは使用できない。
       get "users/infomation/my_page"=>"users#show", as: 'users_show'
       get "users/infomation/edit"=>"users#edit", as: 'users_edit'
