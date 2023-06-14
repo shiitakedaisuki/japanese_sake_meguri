@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     namespace :public do
       # :posts do patch....を追加すると/posts/:idにPATCHメソッドが送信されると、PostsControllerのupdateアクションが呼び出されるようになる?????
       resources :posts do
+        resource :favorites, only: [:create, :destroy]
         resources :comments, only: [:create, :edit, :update, :destroy]
       end
       # URLを指定したいのでresourcesは使用できない。
