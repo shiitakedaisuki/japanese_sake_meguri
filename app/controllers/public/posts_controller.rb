@@ -43,8 +43,7 @@ class Public::PostsController < ApplicationController
   
   def destroy
     post = Post.find(params[:id])
-    # ||はorという意味。AかBどちらかがtrueだったら実行される
-    if post.user_id == current_user.id || current_admin
+    if post.user_id == current_user.id
       post.destroy
       redirect_to public_posts_path
     else

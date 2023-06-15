@@ -3,6 +3,8 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  validates :name, presence: true
+  validates :review, presence: true
   
   def get_image(width, height)
     if image.attached?

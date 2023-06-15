@@ -8,19 +8,25 @@
   <p>レビュー：<%= post.review %></p>
   <p>ユーザーネーム：<%= post.user.user_name %></p>
   <!--投稿画像に付けられた「いいね」に、自分（ログインしているユーザ）が含まれているかをfavorited_by?メソッドで判定-->
-  <% if post.favorited_by?(current_user) %>
+ <!--サインインしてるかつ今のユーザーがお気に入りしている場合-->
+  <% if user_signed_in? && post.favorited_by?(current_user) %>
     <p>
       <%= link_to public_post_favorites_path(post), method: :delete do %>
         ♥<%= post.favorites.count %> いいね
       <% end %>
     </p>
-    <% else %>
+    <!--ユーザーがサインインしている場合-->
+  <% elsif user_signed_in? %>
     <p>
       <%= link_to public_post_favorites_path(post), method: :post do %>
         ♡<%= post.favorites.count %> いいね
       <% end %>
     </p>
+    <!--ログインしていない場合-->
+  <% else %>
+      ♡<%= post.favorites.count %> いいね
   <% end %>
+ 
   
 </div>
   <p><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
