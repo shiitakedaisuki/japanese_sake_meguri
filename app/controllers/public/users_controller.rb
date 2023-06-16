@@ -4,6 +4,10 @@ class Public::UsersController < ApplicationController
     @posts = @user.posts
   end
   
+  def index
+    @users = User.all
+  end
+  
   def edit
     @user = current_user
   end
@@ -20,13 +24,13 @@ class Public::UsersController < ApplicationController
   def confirm
   end
     
-    def quit
-      # ログインしているカスタマーのis_deletedカラムをtrueで更新する
-      current_user.update(is_deleted: true)
-      # 強制的にログアウト状態にする
-      reset_session
-      redirect_to root_path, notice: '退会が完了いたしました。またのご利用をお待ちしております。'
-    end
+  def quit
+    # ログインしているカスタマーのis_deletedカラムをtrueで更新する
+    current_user.update(is_deleted: true)
+    # 強制的にログアウト状態にする
+    reset_session
+    redirect_to root_path, notice: '退会が完了いたしました。またのご利用をお待ちしております。'
+  end
   
   #ストロングパラメータ
   private

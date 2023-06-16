@@ -25,10 +25,12 @@ Rails.application.routes.draw do
       get "search" => "searches#search"
       # URLを指定したいのでresourcesは使用できない。
       get "users/infomation/my_page"=>"users#show", as: 'users_show'
+      get "users/infomation/index"=>"users#index", as: 'users_index'
       get "users/infomation/edit"=>"users#edit", as: 'users_edit'
       patch "users/infomation/my_page"=>"users#update", as: 'users_update'
       get "users/confirm"=>"users#confirm", as: 'users_confirm'
       patch "users/quit"=>"users#quit", as: 'users_quit'
+      
     end
     
     
@@ -36,7 +38,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: "homes#top"
     resources :posts, only:[:destroy]
-    resources :users, only:[:index, :show, :edit, :update]
+    resources :users, only:[:index]
+    patch "users/quit"=>"users#quit", as: 'users_quit'
   end
     
 end

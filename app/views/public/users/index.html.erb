@@ -1,0 +1,10 @@
+<h2>ユーザー一覧</h2>
+<% @users.each do |user| %>
+<div>
+  <p>ユーザーネーム：<%= user.user_name %></p>
+  <%= link_to public_users_show_path do %>
+    <%= image_tag user.get_profile_image(100,100) %>
+  <% end %>
+</div>
+  
+<% end %>
