@@ -1,11 +1,23 @@
 <h2>ユーザー一覧</h2>
 <% @users.each do |user| %>
-<div>
-  <p>ユーザーネーム：<%= user.user_name %></p>
-  <%= link_to public_users_show_path do %>
-    <%= image_tag user.get_profile_image(100,100) %>
-  <% end %>
-</div>
-  
+  <div class="user-card">
+    <%= link_to public_users_show_path do %>
+      <%= image_tag user.get_profile_image(100, 100), class: "user-profile-image" %>
+    <% end %>
+    <p class="user-name">ユーザーネーム：<%= user.user_name %></p>
+  </div>
 <% end %>
+
 <%= paginate @users %>
+
+<style>
+.user-card {
+  text-align: center;
+}
+
+.user-profile-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+</style>
