@@ -1,36 +1,80 @@
 <% @post.each do |post| %>
-<div>
-  <%= link_to public_post_path(post.id) do %>
-    <%= image_tag post.get_image(300,400) %>
-  <% end %>
-   <p>投稿ユーザー画像：<%= image_tag post.user.get_profile_image(100,100) %></p>
-  <p>お酒名：<%= post.name %></p>
-  <p>レビュー：<%= post.review %></p>
-  <p>ユーザーネーム：<%= post.user.user_name %></p>
-  <!--投稿画像に付けられた「いいね」に、自分（ログインしているユーザ）が含まれているかをfavorited_by?メソッドで判定-->
- <!--サインインしてるかつ今のユーザーがお気に入りしている場合-->
-  <% if user_signed_in? && post.favorited_by?(current_user) %>
-    <p>
-      <%= link_to public_post_favorites_path(post), method: :delete do %>
-        ♥<%= post.favorites.count %> いいね
-      <% end %>
-    </p>
-    <!--ユーザーがサインインしている場合-->
-  <% elsif user_signed_in? %>
-    <p>
-      <%= link_to public_post_favorites_path(post), method: :post do %>
-        ♡<%= post.favorites.count %> いいね
-      <% end %>
-    </p>
-    <!--ログインしていない場合-->
-  <% else %>
-      ♡<%= post.favorites.count %> いいね
-  <% end %>
- 
-  
-</div>
-  <p><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
-</div>
+  <div class="post">
+      <div class="user-info">
+        <span class="username"><%= post.user.user_name %></span>
+        <%= image_tag post.user.get_profile_image(100, 100),class: "user-image"  %>
+      </div>
+      <div class="post-content">
+        <div class="image-wrapper">
+          <%= link_to public_post_path(post.id) do %>
+            <%= image_tag post.get_image(200, 200) %>
+          <% end %>
+        </div>
+        <div class="spacer"></div>
+        <div class="post-details">
+          <span class="post-name"><%= post.name %></span>
+          <span class="genres">
+            <%= Genre.where(id: post.post_genres.pluck(:genre_id)).pluck(:name).join(',') %>
+          </span>
+          <p class="review">レビュー：<%= post.review %></p>
+          <div class="actions">
+            <% if user_signed_in? %>
+              <% if post.favorited_by?(current_user) %>
+                <%= link_to public_post_favorites_path(post), method: :delete, class: "favorite" do %>
+                  ♥ <%= post.favorites.count %> いいね
+                <% end %>
+              <% else %>
+                <%= link_to public_post_favorites_path(post), method: :post, class: "favorite" do %>
+                  ♡ <%= post.favorites.count %> いいね
+                <% end %>
+              <% end %>
+            <% else %>
+              ♡ <%= post.favorites.count %> いいね
+            <% end %>
+            <p class="comments"><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
+          </div>
+        </div>
+      </div>
+  </div>
 <% end %>
 
 <%= paginate @post %>
+
+<style>
+.post {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* 上寄せにする */
+  margin-bottom: 20px;
+  background-color: #F4EEE0;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 1500px; /* 横幅を調整する値を設定 */
+  width: 800px; /* 幅を100%に設定して親要素に合わせる */
+  margin-left: auto; /* 横方向の中央配置のために追加 */
+  margin-right: auto; /* 横方向の中央配置のために追加 */
+}
+
+.post-content {
+  display: flex;
+  align-items: flex-start;
+  flex-grow: 1; /* 子要素を均等に分配するために追加 */
+}
+
+.image-wrapper {
+  margin-right: 20px;
+}
+
+.post-details {
+  width: 100%; /* ボックスの固定幅を設定 */
+  overflow-wrap: break-word; /* 単語の途中で改行する */
+}
+
+.review {
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  white-space: pre-line; /* 行の途中で改行する */
+  overflow: hidden; /* テキストの省略 */
+  text-overflow: ellipsis; /* テキストの省略時に「...」を表示 */
+}
+</style>

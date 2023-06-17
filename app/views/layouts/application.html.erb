@@ -9,6 +9,63 @@
       <script src="https://kit.fontawesome.com/5afbf8a978.js" crossorigin="anonymous"></script>
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+   
+   <style>
+    body {
+      background-color: #3A98B9;
+      color: #0B2447;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 0 20px;
+      margin: 0;
+    }
+    
+    .header-content {
+    color: #576CBC;
+    text-align: center;
+    background-color: #E8D5C4;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    padding: 20px;
+    }
+      
+    
+    .flex {
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+      padding: 0;
+    }
+    
+    .flex li {
+      margin: 0 10px;
+    }
+    
+    .search_form {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    main {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #FFFFFF;
+      color: #3A98B9;
+    }
+  
+  </style>
+   
+   
     </head>
     
     <body>
@@ -21,7 +78,7 @@
           <ul class="flex">
             <% if admin_signed_in? %>
               <li><%= link_to 'ユーザー一覧',  admin_users_path %></li>
-              <li><%#= link_to 'ジャンル一覧',  admin_genres_path %></li>
+              <li><%= link_to 'ジャンル一覧',  admin_genres_path %></li>
               <li><%= link_to '投稿一覧',  public_posts_path %></li>
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %></li>
             <% elsif user_signed_in? %>
@@ -71,6 +128,6 @@
         <%= yield %>
       </main>
       
-      <footer>Copyright © Infratop Inc. All Rights Reserved.</footer>
+      <footer>Copyright ©shibatan Inc. All Rights Reserved.</footer>
      </body>
 </html>

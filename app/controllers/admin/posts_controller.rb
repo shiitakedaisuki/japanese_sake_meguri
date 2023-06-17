@@ -9,4 +9,6 @@ class Admin::PostsController < ApplicationController
       redirect_to root_path, alert: "不正な操作です。"
     end
   end
+  
+  
 end

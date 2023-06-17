@@ -1,54 +1,79 @@
-<div>
-  <p>投稿詳細</p>
-  <%= image_tag @post.get_image(300,400) %>
-  <p>お酒名：<%= @post.name %></p>
-  <p>レビュー文：<%= @post.review %></p>
-  <p>投稿ユーザー画像：<%= image_tag @post.user.get_profile_image(100,100) %></p>
-  <p>ユーザーネーム：<%= @post.user.user_name %></p>
-  <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @post.user == current_user %>
-    <%= link_to "削除する", public_post_path(@post) ,method: :delete, class: "btn btn-outline-secondary", data: { confirm: "本当に削除しますか？" } %>
-    <%= link_to "編集する", edit_public_post_path(@post), class: "btn btn-outline-secondary" %>
-  <% end %>
-  <% if admin_signed_in? %>
-    <%= link_to "管理者として削除する", admin_post_path(@post) ,method: :delete, class: "btn btn-outline-secondary", data: { confirm: "本当に削除しますか？" } %>
-  <% end %>
-  <!--サインインしてるかつ今のユーザーがいいねしている場合-->
-  <% if user_signed_in? && @post.favorited_by?(current_user) %>
-    <p>
-      <%= link_to public_post_favorites_path(@post), method: :delete do %>
-        ♥<%= @post.favorites.count %> いいね
+<div class="post-details">
+  <h2>投稿詳細</h2>
+  <div class="post-image">
+    <%= image_tag @post.get_image(300, 400), class: "post-image-width" %>
+  </div>
+  <div class="post-content">
+    <p>お酒名：<%= @post.name %></p>
+    <p>ジャンル名：<%= Genre.where(id: @post.post_genres.pluck(:genre_id)).pluck(:name).join(',') %></p>
+    <div class="review">
+      <p>レビュー文：</p>
+      <div class="review-text">
+        <%= @post.review %>
+      </div>
+    </div>
+  </div>
+  <div class="user-info">
+    <div class="user-image-name">
+      <%= image_tag @post.user.get_profile_image(100, 100) %><!--ユーザ画像-->
+      <%= @post.user.user_name %></p>　<!--ユーザーネーム-->
+    </div>
+      <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
+      <% if @post.user == current_user %>
+        <%= link_to "削除する", public_post_path(@post), method: :delete, class: "btn btn-outline-secondary", data: { confirm: "本当に削除しますか？" } %>
+        <%= link_to "編集する", edit_public_post_path(@post), class: "btn btn-outline-secondary" %>
       <% end %>
-    </p>
-    <!--ユーザーがサインインしている場合-->
-  <% elsif user_signed_in? %>
-    <p>
-      <%= link_to public_post_favorites_path(@post), method: :post do %>
+      <% if admin_signed_in? %>
+        <%= link_to "管理者として投稿を削除する", admin_post_path(@post), method: :delete, class: "btn btn-outline-secondary", data: { confirm: "本当に削除しますか？" } %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+    <div class="likes">
+      <% if user_signed_in? && @post.favorited_by?(current_user) %>
+        <%= link_to public_post_favorites_path(@post), method: :delete, class: "btn btn-like" do %>
+          ♥<%= @post.favorites.count %> いいね
+        <% end %>
+      <% elsif user_signed_in? %>
+        <%= link_to public_post_favorites_path(@post), method: :post, class: "btn btn-like" do %>
+          ♡<%= @post.favorites.count %> いいね
+        <% end %>
+      <% else %>
         ♡<%= @post.favorites.count %> いいね
       <% end %>
-    </p>
-    <!--ログインしていない場合-->
-  <% else %>
-      ♡<%= @post.favorites.count %> いいね
-  <% end %>
+    </div>
+  </div>
+</div>
 
-<div>
-  <!--コメント件数を表示、コメントをそれぞれ持ってくる-->
-  <p>コメント件数：<%= @post.comments.count %></p>
-  <% @post.comments.each do |comment| %>
-    <p><%= image_tag comment.user.get_profile_image(100,100) %></p>
-    <%= comment.user.user_name %>
-    <%= comment.created_at.strftime('%Y/%m/%d') %><%= comment.comment %>
-    <% if comment.user == current_user %>
-      <%= link_to "削除する", public_post_comment_path(comment.post, comment), method: :delete %>
-      <%= link_to "編集する", edit_public_post_comment_path(@post, comment) %>
-    <% end %>
-  <% end %>
-</div>
-<!--コメントを投稿する-->
-<div>
-  <%= form_with model: [@post, @comment], url:public_post_comments_path(@post) do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-</div>
+<style>
+.post-content {
+  margin-top: 20px; /* レビュー文とユーザー画像の間に余白を追加 */
+}
+.review {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.review-text {
+  margin: 0;
+}
+
+.user-info {
+  margin-top: 20px; /* ユーザー画像の上に余白を追加 */
+  flex-grow: 1;
+  text-align: left;
+　padding-top: 20px;
+　padding-bottom: 20px;
+  padding-left: 20px; /* 左側の余白を追加 */
+}
+
+.user-image-name {
+  margin-bottom: 10px; /* 下側の余白を追加 */
+}
+
+.review-text {
+  padding: 10px; /* 余白を追加 */
+}
+
+</style>

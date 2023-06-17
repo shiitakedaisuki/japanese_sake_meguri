@@ -1,3 +1,5 @@
+
+
 <h1>投稿編集</h1>
 <!--form_withは、rootでnamespaceを使っていたらモデルとurlを指定しないといけない-->
   <%= form_with model: @post, url: public_post_path(@post), method: :patch do |f| %>
@@ -9,3 +11,7 @@
       <%= f.text_area :review %>
     <%= f.submit '更新' %>
   <% end %>
+
+</div>
+</div>
+</div>

@@ -8,6 +8,8 @@ class Public::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.user_id = current_user.id
+    # 変数名.アソシエーションで関係のあるテーブルの複数形の変数名.new(ジャンルidはパラメータから取ってきたジャンルのid)
+    @post.post_genres.new(genre_id: Genre.find_by(name: genre_params).id)
     if @post.valid?
       @post.save
       flash[:notice] = "投稿しました"
@@ -57,4 +59,8 @@ class Public::PostsController < ApplicationController
     params.require(:post).permit(:name, :image, :review)
   end
   
+  def genre_params
+    # 書き方は違うけど59行目と一緒の意味。エラーが出てしまうのでこの書き方
+    params[:post][:genre_name]
+  end
 end
