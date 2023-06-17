@@ -32,3 +32,5 @@
   <p><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
 </div>
 <% end %>
+
+<%= paginate @post %>

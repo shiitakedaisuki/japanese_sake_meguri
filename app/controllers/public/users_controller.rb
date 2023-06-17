@@ -1,11 +1,11 @@
 class Public::UsersController < ApplicationController
   def show
     @user = current_user
-    @posts = @user.posts
+    @posts = @user.posts.page(params[:page])
   end
   
   def index
-    @users = User.all
+    @users = User.page(params[:page])
   end
   
   def edit
@@ -35,7 +35,7 @@ class Public::UsersController < ApplicationController
   #ストロングパラメータ
   private
   def user_params
-    params.require(:user).permit(:user_name, :email, :image, :password)
+    params.require(:user).permit(:user_name, :email, :profile_image, :password)
   end
   
 end
