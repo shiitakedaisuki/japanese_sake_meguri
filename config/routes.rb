@@ -38,8 +38,9 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: "homes#top"
     resources :posts, only:[:destroy]
-    resources :users, only:[:index]
-    patch "users/quit"=>"users#quit", as: 'users_quit'
+    resources :users, only:[:index, :update]
+    # "users/:id/quit"は退会したい人のuseridをコントローラーに渡すために/:id/を入れる
+    patch "users/:id/quit"=>"users#quit", as: 'users_quit'
   end
     
 end

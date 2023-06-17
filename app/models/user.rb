@@ -11,7 +11,6 @@ class User < ApplicationRecord
   
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-  
   def get_profile_image(width, height)
     # プロフィール写真が添付されている場合
     if profile_image.attached?
