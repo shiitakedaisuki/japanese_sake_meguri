@@ -6,12 +6,12 @@ class Public::CommentsController < ApplicationController
     comment.post_id = post.id
     comment.save
     # 投稿の詳細画面にリダイレクト
-    redirect_to public_post_path(post)
+    redirect_to post_path(post)
   end
   
   def destroy
     Comment.find(params[:id]).destroy
-    redirect_to  public_post_path(params[:post_id])
+    redirect_to  post_path(params[:post_id])
   end
   
   def edit
@@ -22,7 +22,7 @@ class Public::CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     @post = @comment.post # コメントに関連する投稿を取得する
     if @comment.update(comment_params)
-      redirect_to public_post_path(@post), notice: "コメントが編集されました。"
+      redirect_to post_path(@post), notice: "コメントが編集されました。"
     else
       render :edit
     end

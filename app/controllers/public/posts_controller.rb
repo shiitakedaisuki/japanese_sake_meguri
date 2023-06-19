@@ -13,7 +13,7 @@ class Public::PostsController < ApplicationController
     if @post.valid?
       @post.save
       flash[:notice] = "投稿しました"
-      redirect_to public_post_path(@post)
+      redirect_to post_path(@post)
     else
       render :new
     end
@@ -36,7 +36,7 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
     if
       @post.update(post_params)
-      redirect_to public_post_path(@post), notice: "投稿が更新されました"
+      redirect_to post_path(@post), notice: "投稿が更新されました"
     else
       render :edit
     end
@@ -46,7 +46,7 @@ class Public::PostsController < ApplicationController
     post = Post.find(params[:id])
     if post.user_id == current_user.id
       post.destroy
-      redirect_to public_posts_path
+      redirect_to posts_path
     else
       redirect_to root_path, alert: "不正な操作です。"
     end

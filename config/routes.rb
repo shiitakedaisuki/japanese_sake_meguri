@@ -5,6 +5,11 @@ Rails.application.routes.draw do
       registrations: "public/registrations",
       sessions: 'public/sessions'
     }
+    # devise_scopeは、deviseで新しいアクションを作る際に使用する
+    devise_scope :user do
+      post 'guest_sign_in', to: 'public/sessions#guest_sign_in'
+    end
+    
     # 管理者用
     # URL /admin/sign_in ...
     devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
@@ -15,8 +20,8 @@ Rails.application.routes.draw do
     root to: "public/homes#top"
     get "public/homes/about"=>"public/homes#about", as: 'about'
     
-    # 顧客用 namespaceを使うと、全てのpathにpublic/が最初につく
-    namespace :public do
+    # scope moduleを使用してurlにpublicがつかないようにする
+    scope module: :public do
       # :posts do patch....を追加すると/posts/:idにPATCHメソッドが送信されると、PostsControllerのupdateアクションが呼び出されるようになる?????
       resources :posts do
         resource :favorites, only: [:create, :destroy]
@@ -30,11 +35,10 @@ Rails.application.routes.draw do
       patch "users/infomation/my_page"=>"users#update", as: 'users_update'
       get "users/confirm"=>"users#confirm", as: 'users_confirm'
       patch "users/quit"=>"users#quit", as: 'users_quit'
-      
     end
     
     
-     # 管理者用
+     # 管理者用 namespaceを使うと、全てのpathにadmin/が最初につく
   namespace :admin do
     root to: "homes#top"
     resources :posts, only:[:destroy] do

@@ -74,30 +74,33 @@
         <div class="header-content">
           <!--↓三項演算子を使用して条件分岐。管理者がログインしている場合、admin_top_path（管理者トップページへのパス）A(admin_signed_in?)が正しかったらB(admin_top_path)が実行され、Aが偽だったらC(root_path)が実行される-->
           <!--ログインしていない場合は、root_pathで通常のトップページへのリンクを表示する。-->
-        <%= link_to 'JapaneseSakeMeguri', (admin_signed_in? ? admin_root_path : root_path ), class: "logo" %>
+        <%= link_to  (admin_signed_in? ? admin_root_path : root_path ), class: "logo" do %>
+          <%= image_tag("LOGOJapaneseSakeMeguri.png" , style: "width: 100px; height: 100px;") %>
+        <% end %>
           <ul class="flex">
             <% if admin_signed_in? %>
               <li><%= link_to 'ユーザー一覧',  admin_users_path %></li>
               <li><%= link_to 'ジャンル一覧',  admin_genres_path %></li>
-              <li><%= link_to '投稿一覧',  public_posts_path %></li>
+              <li><%= link_to '投稿一覧',  posts_path %></li>
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %></li>
             <% elsif user_signed_in? %>
               <p>ようこそ、<%= current_user.user_name %>さん!</p>
-              <li><%= link_to 'マイページ', public_users_show_path %></li>
-              <li><%= link_to '投稿する', new_public_post_path %></li>
-              <li><%= link_to '投稿一覧', public_posts_path %></li>
-              <li><%= link_to 'ユーザー一覧', public_users_index_path %></li>
+              <li><%= link_to 'マイページ', users_show_path %></li>
+              <li><%= link_to '投稿する', new_post_path %></li>
+              <li><%= link_to '投稿一覧', posts_path %></li>
+              <li><%= link_to 'ユーザー一覧', users_index_path %></li>
               <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
             <% else %>
               <li><%= link_to '新規登録', new_user_registration_path %></li>
+              <li><%= link_to 'ゲストログイン（閲覧用）', guest_sign_in_path, method: :post %></li>
               <li><%= link_to 'ログイン', new_user_session_path %></li>
-              <li><%= link_to '投稿一覧', public_posts_path %></li>
+              <li><%= link_to '投稿一覧', posts_path %></li>
               <li><%= link_to 'About us', about_path %></li>
             <% end %>
           </ul>
           <!--検索フォーム-->
           <div class="search_form">
-            <%= form_with url: public_search_path, local: true, method: :get do |f| %>
+            <%= form_with url: search_path, local: true, method: :get do |f| %>
               <!--検索内容を、wordとしてアクションに送る？？？？-->
               <%= f.text_field :word %>
               <!--複数のモデルを検索できるように実装する為、UserモデルとPostモデルを選択できるようにしている-->

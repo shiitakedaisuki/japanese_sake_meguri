@@ -34,15 +34,15 @@
     <h3><%= @user.user_name %></h3>
     <%= image_tag @user.get_profile_image(100, 100) %>
     <% if @user == current_user %>
-      <p><%= link_to "プロフィールを編集する",  public_users_edit_path,class:"btn btn-outline-secondary" %></p>
-      <p><%= link_to "退会する",  public_users_confirm_path,class:"btn btn-outline-secondary" %></p>
+      <p><%= link_to "プロフィールを編集する",  users_edit_path,class:"btn btn-outline-secondary" %></p>
+      <p><%= link_to "退会する",  users_confirm_path,class:"btn btn-outline-secondary" %></p>
     <% end %>
 </div>
 
 <div class="posts-container">
   <% @posts.each do |post| %>
     <div class="post">
-      <%= link_to public_post_path(post.id) do %>
+      <%= link_to post_path(post.id) do %>
         <%= image_tag post.get_image(200, 200), style: "max-width: 100%;" %>
       <% end %>
       <div class="post-details">
@@ -50,7 +50,7 @@
         <p>レビュー文</p>
         <p>：<%= post.review %></p>
         <p>ユーザーネーム：<%= post.user.user_name %></p>
-        <p><%= link_to "#{post.comments.count} コメント", public_post_path(post.id) %></p>
+        <p><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></p>
       </div>
     </div>
   <% end %>

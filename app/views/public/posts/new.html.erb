@@ -1,7 +1,7 @@
 <h1>新規投稿フォーム</h1>
 
 <!--form_withは、rootでnamespaceを使っていたらモデルとurlを指定しないといけない-->
-  <%= form_with model: @post,url: public_posts_path do |f| %>
+  <%= form_with model: @post,url: posts_path do |f| %>
     <h4>画像</h4>
       <%= f.file_field :image, accept: "image/*" %>
     <h4>お酒の名前</h4>

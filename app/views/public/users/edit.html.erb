@@ -1,5 +1,5 @@
 <h2>プロフィール編集</h2>
-<%= form_with model: @user, url: public_users_update_path(@user), method: :patch do |f| %>
+<%= form_with model: @user, url: users_update_path(@user), method: :patch do |f| %>
     <label for="inputName">ユーザー名</label>
     <%= f.text_field :user_name, autofocus: true, id:"inputName", placeholder:"ユーザーネーム"%>
     <label for="inputImage">プロフィール画像</label>
