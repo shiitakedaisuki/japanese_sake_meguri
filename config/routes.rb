@@ -22,8 +22,12 @@ Rails.application.routes.draw do
     
     # scope moduleを使用してurlにpublicがつかないようにする
     scope module: :public do
-      # :posts do patch....を追加すると/posts/:idにPATCHメソッドが送信されると、PostsControllerのupdateアクションが呼び出されるようになる?????
+      # :posts do patch....を追加すると/posts/:idにPATCHメソッドが送信されると、PostsControllerのupdateアクションが呼び出されるようになる
+      resources :genres, only: [:index]
       resources :posts do
+        collection do
+          get 'genre/:id' =>'posts#genre', as: 'genre'
+        end
         resource :favorites, only: [:create, :destroy]
         resources :comments, only: [:create, :edit, :update, :destroy]
       end
@@ -37,17 +41,15 @@ Rails.application.routes.draw do
       patch "users/quit"=>"users#quit", as: 'users_quit'
     end
     
-    
-     # 管理者用 namespaceを使うと、全てのpathにadmin/が最初につく
-  namespace :admin do
-    root to: "homes#top"
-    resources :posts, only:[:destroy] do
-      resources :comments, only: [:destroy]
+    # 管理者用 namespaceを使うと、全てのpathにadmin/が最初につく
+    namespace :admin do
+      root to: "homes#top"
+      resources :posts, only:[:destroy] do
+        resources :comments, only: [:destroy]
+      end
+      resources :genres
+      resources :users, only:[:index, :update]
+      # "users/:id/quit"は退会したい人のuseridをコントローラーに渡すために/:id/を入れる
+      patch "users/:id/quit"=>"users#quit", as: 'users_quit'
     end
-    resources :genres
-    resources :users, only:[:index, :update]
-    # "users/:id/quit"は退会したい人のuseridをコントローラーに渡すために/:id/を入れる
-    patch "users/:id/quit"=>"users#quit", as: 'users_quit'
-  end
-    
 end

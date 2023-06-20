@@ -4,6 +4,8 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :post_genres, dependent: :destroy
+  # 中間テーブルを通してgenreモデルをhas_manyで持つ
+  has_many :genres,through: :post_genres,source: :genre
   validates :name, presence: true
   validates :review, presence: true
   
@@ -25,6 +27,19 @@ class Post < ApplicationRecord
   end
   
   def self.looks(search, word)
+    if search == "perfect_match"
+      @post = Post.where("review LIKE?","#{word}")
+    elsif search == "forward_match"
+      @post = Post.where("review LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @post = Post.where("review LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @post = Post.where("review LIKE?","%#{word}%")
+    end
+    
+  end
+  
+  def self.name_looks(search, word)
     if search == "perfect_match"
       @post = Post.where("name LIKE?","#{word}")
     elsif search == "forward_match"

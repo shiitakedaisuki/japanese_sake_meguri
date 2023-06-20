@@ -5,7 +5,9 @@
   </div>
   <div class="post-content">
     <p>お酒名：<%= @post.name %></p>
-    <p>ジャンル名：<%= Genre.where(id: @post.post_genres.pluck(:genre_id)).pluck(:name).join(',') %></p>
+    <!--pluck(:name)でnameというカラムだけを抜き出してくるという意味-->
+    <!--join(',')で複数ジャンルがあった場合に繋げる-->
+    <p>ジャンル名：<%= @post.genres.pluck(:name).join(',') %></p>
     <div class="review">
       <p>レビュー文：</p>
       <div class="review-text">
@@ -28,6 +30,28 @@
       <% end %>
     </div>
   </div>
+</div>
+
+<div>
+  <!--コメント件数を表示、コメントをそれぞれ持ってくる-->
+  <p>コメント件数：<%= @post.comments.count %></p>
+  <% @post.comments.each do |comment| %>
+    <p><%= image_tag comment.user.get_profile_image(100,100) %></p>
+    <%= comment.user.user_name %>
+    <%= comment.created_at.strftime('%Y/%m/%d') %><%= comment.comment %>
+    <% if comment.user == current_user %>
+      <%= link_to "削除する", post_comment_path(comment.post, comment), method: :delete %>
+      <%= link_to "編集する", edit_post_comment_path(@post, comment) %>
+    <% end %>
+  <% end %>
+</div>
+
+<!--コメントを投稿する-->
+<div>
+  <%= form_with model: [@post, @comment], url:post_comments_path(@post) do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
+  <% end %>
 </div>
 
     <div class="likes">

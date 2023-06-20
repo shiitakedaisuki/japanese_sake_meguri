@@ -1,0 +1,49 @@
+<style>
+.post_card {
+  background-color: beige;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.post-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.user-info {
+  margin-top: 10px;
+}
+
+.user-image-name {
+  display: flex;
+  align-items: center;
+}
+
+.user-image-name img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+</style>
+
+<h1><%= @genre.name %>の投稿一覧</h1>
+
+<% @posts.each do |post| %>
+  <div class="user-image-name">
+    <%= image_tag post.user.get_profile_image(100, 100) %><!--ユーザ画像-->
+    <%= post.user.user_name %><!--ユーザーネーム-->
+  </div>
+  <div class="post_card">
+    <h2><%= post.name %></h2>
+    <%= link_to post_path do %>
+      <%= image_tag post.get_image(100, 100), class: "post-image" %>
+    <% end %>
+    <p>ジャンル名：<%= post.genres.map(&:name).join(', ') %></p>
+    <p><%= post.review %></p>
+  </div>
+  <div class="user-info">
+  </div>
+<% end %>

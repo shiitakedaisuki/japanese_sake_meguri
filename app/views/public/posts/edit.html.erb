@@ -3,7 +3,13 @@
 <h1>投稿編集</h1>
 <!--form_withは、rootでnamespaceを使っていたらモデルとurlを指定しないといけない-->
   <%= form_with model: @post, url: post_path(@post), method: :patch do |f| %>
+  
     <h4>画像</h4>
+      <% if @post.image.attached? %>
+        <%= image_tag url_for(@post.image), size: "100x100" %> <!-- 現在の画像を表示 -->
+      <% else %>
+        <p>現在の画像はありません</p>
+      <% end %><br>
       <%= f.file_field :image, accept: "image/*" %>
     <h4>お酒の名前</h4>
       <%= f.text_field :name %>
@@ -11,7 +17,3 @@
       <%= f.text_area :review %>
     <%= f.submit '更新' %>
   <% end %>
-
-</div>
-</div>
-</div>

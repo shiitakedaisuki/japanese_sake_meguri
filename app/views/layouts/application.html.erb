@@ -101,33 +101,31 @@
           <!--検索フォーム-->
           <div class="search_form">
             <%= form_with url: search_path, local: true, method: :get do |f| %>
-              <!--検索内容を、wordとしてアクションに送る？？？？-->
+              <!--検索内容を、wordとしてアクションに送る-->
               <%= f.text_field :word %>
               <!--複数のモデルを検索できるように実装する為、UserモデルとPostモデルを選択できるようにしている-->
-              <%= f.select :range, options_for_select([['ユーザー','User'], ['投稿','Post']]) %>
+              <%= f.select :range, options_for_select([['ユーザー','User'], ['レビュー文','Review'], ['お酒名','Name']]) %>
               <!--検索手法を定義-->
               <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
               <%= f.submit "検索", class: "btn btn-primary" %>
             <% end %>
           </div>
-          <%# if admin_signed_in? %>
-            <%#= form_tag(admin_search_path, method: :get) do %>
-              <%#= text_field_tag "search[content]", "", :placeholder =>"会員: 姓,名,セイ,メイ / 商品: 商品名" %>
-              <%#= select_tag "search[model]", options_for_select({ "会員" => "customer", "商品" => "item" }) %>
-              <%#= select_tag "search[method]", options_for_select({ "部分一致" => "partial", "前方一致" => "forward", "後方一致" => "backward", "完全一致" => "perfect" }) %>
-              <%#= submit_tag '検索', class: "btn btn-primary" %>
-            <%# end %>
-          <%# end %>
-          
         </div>
       </header>
       
        <main>
+         <!--フラッシュメッセージの表示-->
          <% flash.each do |type, message| %>
           <div class="flash <%= type %>">
             <%= message %>
           </div>
           <% end %>
+          
+          <!--ジャンルの表示-->
+          <% Genre.all.each do |genre| %>
+            <%= link_to genre.name, genre_posts_path(genre) %>
+          <% end %>
+          
         <%= yield %>
       </main>
       

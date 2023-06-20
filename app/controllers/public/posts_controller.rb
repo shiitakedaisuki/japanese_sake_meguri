@@ -1,11 +1,18 @@
 class Public::PostsController < ApplicationController
-  before_action :authenticate_user! , only: [:new, :edit]
+  before_action :authenticate_user! , only: [:new, :edit, :create]
   def new
     @post = Post.new
   end
   
   # 投稿データの保存
   def create
+    # 現在のユーザーのemailがゲストユーザーのものだったら
+    if current_user.email == 'guest@example.com'
+      flash[:notice] = "ゲストユーザーは投稿できません。新規会員登録してください。"
+      redirect_to new_post_path
+      return
+    end
+    # ユーザーがログインしている場合のみ投稿処理を行う
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     # 変数名.アソシエーションで関係のあるテーブルの複数形の変数名.new(ジャンルidはパラメータから取ってきたジャンルのid)
@@ -50,6 +57,11 @@ class Public::PostsController < ApplicationController
     else
       redirect_to root_path, alert: "不正な操作です。"
     end
+  end
+  
+  def genre
+    @genre = Genre.find(params[:id])
+    @posts = @genre.posts.page(params[:page])
   end
   
   # 投稿データのストロングパラメータ
