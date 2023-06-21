@@ -1,6 +1,7 @@
 class Public::UsersController < ApplicationController
+   before_action :authenticate_user! , only: [:show, :index]
   def show
-    @user = current_user
+    @user = User.find(params[:id])
     @posts = @user.posts.page(params[:page])
   end
   

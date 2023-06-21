@@ -10,7 +10,8 @@
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
    
-   <style>
+ 
+  <style>
     body {
       background-color: #3A98B9;
       color: #0B2447;
@@ -21,18 +22,32 @@
       min-height: 100vh;
       padding: 0 20px;
       margin: 0;
+      position: relative;
+      min-height: 100vh;
+    }
+    main{
+    padding-top: 100px
+    margin-bottom:50px;
     }
     
     .header-content {
-    color: #576CBC;
-    text-align: center;
-    background-color: #E8D5C4;
-    width: 100%;
-    max-width: 100vw;
-    box-sizing: border-box;
-    padding: 20px;
+      color: #576CBC;
+      text-align: center;
+      background-color: #E8D5C4;
+      width: 100%;
+      max-width: 100vw;
+      box-sizing: border-box;
+      padding: 10px;
+      height: 110px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-      
     
     .flex {
       display: flex;
@@ -52,17 +67,10 @@
     
     main {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 100px; /* ヘッダーの高さ分の余白を指定 */
     }
     
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #FFFFFF;
-      color: #3A98B9;
-    }
-  
+
   </style>
    
    
@@ -79,16 +87,17 @@
         <% end %>
           <ul class="flex">
             <% if admin_signed_in? %>
+              <h2>Admin</h2>
               <li><%= link_to 'ユーザー一覧',  admin_users_path %></li>
               <li><%= link_to 'ジャンル一覧',  admin_genres_path %></li>
               <li><%= link_to '投稿一覧',  posts_path %></li>
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %></li>
             <% elsif user_signed_in? %>
               <p>ようこそ、<%= current_user.user_name %>さん!</p>
-              <li><%= link_to 'マイページ', users_show_path %></li>
+              <li><%= link_to 'マイページ', user_path(current_user) %></li>
               <li><%= link_to '投稿する', new_post_path %></li>
               <li><%= link_to '投稿一覧', posts_path %></li>
-              <li><%= link_to 'ユーザー一覧', users_index_path %></li>
+              <li><%= link_to 'ユーザー一覧', users_path %></li>
               <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
             <% else %>
               <li><%= link_to '新規登録', new_user_registration_path %></li>
