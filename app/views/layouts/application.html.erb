@@ -90,7 +90,7 @@
               <h2>Admin</h2>
               <li><%= link_to 'ユーザー一覧',  admin_users_path %></li>
               <li><%= link_to 'ジャンル一覧',  admin_genres_path %></li>
-              <li><%= link_to '投稿一覧',  posts_path %></li>
+              <li><%= link_to '投稿一覧',  admin_posts_path %></li>
               <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete %></li>
             <% elsif user_signed_in? %>
               <p>ようこそ、<%= current_user.user_name %>さん!</p>
@@ -103,22 +103,37 @@
               <li><%= link_to '新規登録', new_user_registration_path %></li>
               <li><%= link_to 'ゲストログイン（閲覧用）', guest_sign_in_path, method: :post %></li>
               <li><%= link_to 'ログイン', new_user_session_path %></li>
-              <li><%= link_to '投稿一覧', posts_path %></li>
               <li><%= link_to 'About us', about_path %></li>
             <% end %>
           </ul>
-          <!--検索フォーム-->
+          <!--publicの検索フォーム-->
           <div class="search_form">
-            <%= form_with url: search_path, local: true, method: :get do |f| %>
-              <!--検索内容を、wordとしてアクションに送る-->
-              <%= f.text_field :word %>
-              <!--複数のモデルを検索できるように実装する為、UserモデルとPostモデルを選択できるようにしている-->
-              <%= f.select :range, options_for_select([['ユーザー','User'], ['レビュー文','Review'], ['お酒名','Name']]) %>
-              <!--検索手法を定義-->
-              <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
-              <%= f.submit "検索", class: "btn btn-primary" %>
+            <% if user_signed_in? %>
+              <%= form_with url: search_path, local: true, method: :get do |f| %>
+                <!--検索内容を、wordとしてアクションに送る-->
+                <%= f.text_field :word %>
+                <!--複数のモデルを検索できるように実装する為、UserモデルとPostモデルを選択できるようにしている-->
+                <%= f.select :range, options_for_select([['ユーザー','User'], ['レビュー文','Review'], ['お酒名','Name']]) %>
+                <!--検索手法を定義-->
+                <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
+                <%= f.submit "検索", class: "btn btn-primary" %>
+              <% end %>
             <% end %>
           </div>
+          <!--管理者用の検索フォーム-->
+            <div class="search_form">
+              <% if admin_signed_in? %>
+                <%= form_with url: admin_search_path, local: true, method: :get do |f| %>
+                  <!--検索内容を、wordとしてアクションに送る-->
+                  <%= f.text_field :word %>
+                  <!--複数のモデルを検索できるように実装する為、UserモデルとPostモデルを選択できるようにしている-->
+                  <%= f.select :range, options_for_select([['ユーザー','User'], ['レビュー文','Review'], ['お酒名','Name']]) %>
+                  <!--検索手法を定義-->
+                  <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
+                  <%= f.submit "検索", class: "btn btn-primary" %>
+                <% end %>
+              <% end %>
+            </div>
         </div>
       </header>
       

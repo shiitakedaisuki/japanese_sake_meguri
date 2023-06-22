@@ -1,0 +1,29 @@
+<div>
+    <h3><%= @user.user_name %></h3>
+    <%= image_tag @user.get_profile_image(100, 100) %>
+    <% if @user.is_deleted == false %>
+      <p>有効</p>
+      <%= link_to '退会させる', admin_users_quit_path(@user.id), method: :patch, data: { confirm: '本当に退会させますか？' } %>
+    <% else %>
+      <p>退会</p>
+    <% end %>
+</div>
+
+<div class="posts-container">
+  <% @posts.each do |post| %>
+    <div class="post">
+      <%= link_to admin_post_path(post.id) do %>
+        <%= image_tag post.get_image(200, 200), style: "max-width: 100%;" %>
+      <% end %>
+      <div class="post-details">
+        <p>お酒名：<%= post.name %></p>
+        <p>レビュー文</p>
+        <p>：<%= post.review %></p>
+        <p>ユーザーネーム：<%= post.user.user_name %></p>
+        <p>♡ <%= post.favorites.count %>
+          コメント件数：<%= post.comments.count %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<%= paginate @posts %>
