@@ -38,8 +38,8 @@
   </div>
   <div class="post_card">
     <h2><%= post.name %></h2>
-    <%= link_to post_path do %>
-      <%= image_tag post.get_image(100, 100), class: "post-image" %>
+    <%= link_to post_path(post.id) do %>
+      <%= image_tag post.get_image(200, 200), class: "post-image" %>
     <% end %>
     <p>ジャンル名：<%= post.genres.map(&:name).join(', ') %></p>
     <p><%= post.review %></p>

@@ -3,12 +3,16 @@ class Admin::PostsController < ApplicationController
   
   def destroy
     post = Post.find(params[:id])
-    if post.destroy
-      redirect_to posts_path
-    else
-      redirect_to root_path, alert: "不正な操作です。"
-    end
+    post.destroy
+    redirect_to admin_posts_path, notice: '削除しました。'
   end
   
+  def index
+    @posts = Post.page(params[:page])
+  end
+
+  def show
+    @post = Post.find(params[:id])
+  end
   
 end

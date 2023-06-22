@@ -39,11 +39,12 @@ Rails.application.routes.draw do
     # 管理者用 namespaceを使うと、全てのpathにadmin/が最初につく
     namespace :admin do
       root to: "homes#top"
-      resources :posts, only:[:destroy] do
+      resources :posts, only:[:index, :show ,:destroy] do
         resources :comments, only: [:destroy]
       end
       resources :genres
-      resources :users, only:[:index, :update]
+      get "search" => "searches#search"
+      resources :users, only:[:index, :update, :show]
       # "users/:id/quit"は退会したい人のuseridをコントローラーに渡すために/:id/を入れる
       patch "users/:id/quit"=>"users#quit", as: 'users_quit'
     end

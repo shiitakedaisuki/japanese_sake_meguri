@@ -1,10 +1,14 @@
+<h1>ユーザー一覧</h1>
 <% @users.each do |user| %>
   <div>
+    <%= link_to admin_user_path(user.id) do %>
+      <%= image_tag user.get_profile_image(100, 100), class: "user-profile-image" %>
+    <% end %>
     <p>ユーザー名: <%= user.user_name %></p>
     <p>メールアドレス: <%= user.email %></p>
     <% if user.is_deleted == false %>
       <p>有効</p>
-      <%= link_to '退会させる', admin_users_quit_path(user), method: :patch, data: { confirm: '本当に退会させますか？' } %>
+      <%= link_to '退会させる', admin_users_quit_path(user.id), method: :patch, data: { confirm: '本当に退会させますか？' } %>
     <% else %>
       <p>退会</p>
     <% end %>
