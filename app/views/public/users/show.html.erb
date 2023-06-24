@@ -1,5 +1,10 @@
 <style>
+
+h3{
+  padding-top:20px;
+}
 .posts-container {
+  margin-top:20px;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -26,6 +31,28 @@
   flex-grow: 1;
   width: 500px;
 }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .button-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .button-container a:hover {
+    background-color: #555;
+  }
+
 </style>
 
 
@@ -33,9 +60,12 @@
 <div>
     <h3><%= @user.user_name %></h3>
     <%= image_tag @user.get_profile_image(100, 100) %>
-    <% if current_user.email != 'guest@example.com' %>
-      <p><%= link_to "プロフィールを編集する",  user_path(@user),class:"btn btn-outline-secondary" %></p>
-      <p><%= link_to "退会する",  users_confirm_path,class:"btn btn-outline-secondary" %></p>
+    <!--もしcurrentuserがゲストユーザーでない　かつ　@userがcurrentuserだったら-->
+    <% if current_user.email != 'guest@example.com' && @user == current_user %>
+      <div class="button-container">
+        <%= link_to "プロフィールを編集する", edit_user_path(@user), class: "btn btn-outline-secondary" %>
+        <%= link_to "退会する", users_confirm_path, class: "btn btn-outline-secondary" %>
+      </div>
     <% end %>
 </div>
 

@@ -1,4 +1,4 @@
-class Admin::SearchController < ApplicationController
+class Admin::SearchesController < ApplicationController
   def search
     # rangeで検索範囲を判別している(User or Review or Name)
     @range = params[:range]

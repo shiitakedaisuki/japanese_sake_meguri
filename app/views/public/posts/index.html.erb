@@ -1,4 +1,6 @@
 <h1>みんなの投稿一覧</h1>
+<main>
+
 <% @posts.each do |post| %>
   <div class="user-info">
     <span class="username"><%= post.user.user_name %></span>
@@ -39,7 +41,7 @@
     </div>
 <% end %>
 <%= paginate @posts %>
-
+</main>
 
 <style>
 .actions{

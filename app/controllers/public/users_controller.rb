@@ -6,7 +6,8 @@ class Public::UsersController < ApplicationController
   end
   
   def index
-    @users = User.page(params[:page])
+    # is_deleted: false(退会していない)ユーザーのみ表示
+    @users = User.where(is_deleted: false).page(params[:page])
   end
   
   def edit
@@ -16,9 +17,9 @@ class Public::UsersController < ApplicationController
   def update
       user = current_user
       if user.update(user_params)
-        redirect_to users_show_path, notice: '更新が完了いたしました。'
+        redirect_to user_path(user.id), notice: '更新が完了いたしました。'
       else
-        redirect_to users_edit_path, notice: '更新できませんでした。'
+        render :edit,notice: '更新できませんでした。'
       end
   end
   

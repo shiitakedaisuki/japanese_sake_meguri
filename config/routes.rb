@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       end
       resources :genres
       get "search" => "searches#search"
-      resources :users, only:[:index, :update, :show]
+      resources :users, only:[:index, :show]
       # "users/:id/quit"は退会したい人のuseridをコントローラーに渡すために/:id/を入れる
       patch "users/:id/quit"=>"users#quit", as: 'users_quit'
     end
