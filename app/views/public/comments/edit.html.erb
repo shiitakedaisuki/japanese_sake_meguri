@@ -1,6 +1,59 @@
-<h2>コメントを編集する</h2>
-<!--@comment.post は、コメントが所属する投稿（Post）オブジェクト。-->
-<%= form_with model: [@comment.post, @comment], url: post_comment_path(@comment.post, @comment), method: :patch do |f| %>
-  <%= f.text_area :comment, rows: '5', placeholder: "Edit your comment" %>
-  <%= f.submit "Update Comment" %>
-<% end %>
+<div class="edit-comment-form">
+  <h2>コメントを編集する</h2>
+  <%= form_with model: [@comment.post, @comment], url: post_comment_path(@comment.post, @comment), method: :patch do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "Edit your comment" %>
+    <div class="submit-button">
+      <%= f.submit "Update Comment", class: "btn btn-outline-secondary" %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+.edit-comment-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #F4EEE0;
+  border-radius: 10px;
+}
+
+.edit-comment-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.edit-comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.submit-button {
+  text-align: center;
+}
+
+.btn.btn-outline-secondary {
+  background-color: transparent;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.btn.btn-outline-secondary:hover {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.btn.btn-outline-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn.btn-outline-secondary:focus {
+  outline: none;
+  box-shadow: none;
+}
+</style>

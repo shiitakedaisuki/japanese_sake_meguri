@@ -5,8 +5,6 @@
   </div>
   <div class="post-content">
     <p>お酒名：<%= @post.name %></p>
-    <!--pluck(:name)でnameというカラムだけを抜き出してくるという意味-->
-    <!--join(',')で複数ジャンルがあった場合に繋げる-->
     <p>ジャンル名：<%= @post.genres.pluck(:name).join(',') %></p>
     <div class="review">
       <p>レビュー文：</p>
@@ -17,60 +15,85 @@
   </div>
   <div class="user-info">
     <div class="user-image-name">
-      <%= image_tag @post.user.get_profile_image(100, 100) %><!--ユーザ画像-->
-      <%= @post.user.user_name %></p>　<!--ユーザーネーム-->
+      <%= image_tag @post.user.get_profile_image(100, 100) %>
+      <%= @post.user.user_name %>
     </div>
-      <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
-      <% if @post.user == current_user %>
-        <%= link_to "投稿を削除する", post_path(@post), method: :delete, class: "btn btn-outline-secondary", data: { confirm: "本当に削除しますか？" } %>
-        <%= link_to "投稿を編集する", edit_post_path(@post), class: "btn btn-outline-secondary" %>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<div>
-  <!--コメント件数を表示、コメントをそれぞれ持ってくる-->
-  <p>コメント件数：<%= @post.comments.count %></p>
-  <% @post.comments.each do |comment| %>
-    <p><%= image_tag comment.user.get_profile_image(100,100) %></p>
-    <%= comment.user.user_name %>
-    <%= comment.created_at.strftime('%Y/%m/%d') %><%= comment.comment %>
-    <% if comment.user == current_user %>
-      <%= link_to "削除する", post_comment_path(comment.post, comment), method: :delete %>
-      <%= link_to "編集する", edit_post_comment_path(@post, comment) %>
+    <p>投稿日：<%= @post.created_at.strftime('%Y/%m/%d') %></p>
+    <% if @post.user == current_user %>
+      <%= link_to "投稿を削除する", post_path(@post), method: :delete, class: "btn btn-outline-secondary", data: { confirm: "本当に削除しますか？" } %>
+      <%= link_to "投稿を編集する", edit_post_path(@post), class: "btn btn-outline-secondary" %>
     <% end %>
-  <% end %>
-</div>
-
-<!--コメントを投稿する-->
-<div>
-  <%= form_with model: [@post, @comment], url:post_comments_path(@post) do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-</div>
-
-    <div class="likes">
-      <% if user_signed_in? && @post.favorited_by?(current_user) %>
-        <%= link_to post_favorites_path(@post), method: :delete, class: "btn btn-like" do %>
-          ♥<%= @post.favorites.count %> いいね
-        <% end %>
-      <% elsif user_signed_in? %>
-        <%= link_to post_favorites_path(@post), method: :post, class: "btn btn-like" do %>
-          ♡<%= @post.favorites.count %> いいね
-        <% end %>
-      <% else %>
-        ♡<%= @post.favorites.count %> いいね
-      <% end %>
-    </div>
   </div>
+</div>
+
+<div class="comments-section">
+  <h3>コメント</h3>
+  <div class="comments-container">
+    <% @post.comments.each do |comment| %>
+      <div class="comment">
+        <div class="comment-header">
+          <%= image_tag comment.user.get_profile_image(100, 100) %>
+          <div class="comment-info">
+            <p><%= comment.user.user_name %></p>
+            <p><%= comment.created_at.strftime('%Y/%m/%d') %></p>
+          </div>
+        </div>
+        <p class="comment-content"><%= comment.comment %></p>
+        <% if comment.user == current_user %>
+          <div class="comment-actions">
+            <%= link_to "削除する", post_comment_path(comment.post, comment), method: :delete, class: "btn btn-outline-secondary" %>
+            <%= link_to "編集する", edit_post_comment_path(@post, comment), class: "btn btn-outline-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="comment-form">
+    <%= form_with model: [@post, @comment], url: post_comments_path(@post) do |f| %>
+      <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+      <%= f.submit "送信する", class: "btn btn-outline-secondary" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="likes">
+  <% if user_signed_in? && @post.favorited_by?(current_user) %>
+    <%= link_to post_favorites_path(@post), method: :delete, class: "btn btn-like" do %>
+      ♥ <%= @post.favorites.count %> いいね
+    <% end %>
+  <% elsif user_signed_in? %>
+    <%= link_to post_favorites_path(@post), method: :post, class: "btn btn-like" do %>
+      ♡ <%= @post.favorites.count %> いいね
+    <% end %>
+  <% else %>
+    ♡ <%= @post.favorites.count %> いいね
+  <% end %>
 </div>
 
 <style>
-.post-content {
-  margin-top: 20px; /* レビュー文とユーザー画像の間に余白を追加 */
+.post-details {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #F4EEE0;
+  border-radius: 10px;
 }
+
+.post-details h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.post-image {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.post-content {
+  margin-top: 20px;
+}
+
 .review {
   border: 1px solid #ccc;
   padding: 10px;
@@ -78,23 +101,92 @@
 
 .review-text {
   margin: 0;
+  padding: 10px;
 }
 
 .user-info {
-  margin-top: 20px; /* ユーザー画像の上に余白を追加 */
-  flex-grow: 1;
+  margin-top: 20px;
   text-align: left;
-　padding-top: 20px;
-　padding-bottom: 20px;
-  padding-left: 20px; /* 左側の余白を追加 */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
 }
 
 .user-image-name {
-  margin-bottom: 10px; /* 下側の余白を追加 */
+  margin-bottom: 10px;
 }
 
-.review-text {
-  padding: 10px; /* 余白を追加 */
+.comments-section {
+  margin-top: 40px;
+  background-color: #F8F8F8;
+  border-radius: 5px;
+  padding: 20px;
 }
 
+.comments-section h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.comments-container {
+  margin-top: 20px;
+}
+
+.comment {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+}
+
+.comment-header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-info p {
+  margin: 0;
+}
+
+.comment-content {
+  margin-top: 10px;
+}
+
+.comment-actions {
+  margin-top: 10px;
+}
+
+.comment-actions .btn {
+  margin-right: 10px;
+}
+
+.comment-form {
+  margin-top: 20px;
+}
+
+.btn.btn-outline-secondary {
+  background-color: transparent;
+  color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.btn.btn-outline-secondary:hover {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.btn.btn-outline-secondary:active {
+  transform: translateY(1px);
+}
+
+.btn.btn-outline-secondary:focus {
+  outline: none;
+  box-shadow: none;
+}
 </style>

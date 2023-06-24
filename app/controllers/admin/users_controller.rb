@@ -10,15 +10,6 @@ class Admin::UsersController < ApplicationController
       @posts = @user.posts.page(params[:page])
     end
     
-    def update
-        user = User.find(params[:id])
-        if user.update(user_params)
-          redirect_to public_users_show_path, notice: '更新が完了いたしました。'
-        else
-          redirect_to public_users_edit_path, notice: '更新できませんでした。'
-        end
-    end
-    
     def quit
       user = User.find(params[:id])
       # ログインしているカスタマーのis_deletedカラムをtrueで更新する
