@@ -1,5 +1,7 @@
 <h2>ユーザー一覧</h2>
 <% @users.each do |user| %>
+<!--ゲストユーザーを一覧から除く-->
+  <% next if user.email == "guest@example.com" %>
   <div class="user-card">
     <%= link_to user_path(user) do %>
       <%= image_tag user.get_profile_image(100, 100), class: "user-profile-image" %>

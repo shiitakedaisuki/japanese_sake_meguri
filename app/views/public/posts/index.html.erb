@@ -23,21 +23,8 @@
         </div>
       </div>
   </div>
-    <div class="actions">
-      <% if user_signed_in? %>
-        <% if post.favorited_by?(current_user) %>
-          <%= link_to post_favorites_path(post), method: :delete, class: "favorite" do %>
-            ♥ <%= post.favorites.count %> いいね
-          <% end %>
-        <% else %>
-          <%= link_to post_favorites_path(post), method: :post, class: "favorite" do %>
-            ♡ <%= post.favorites.count %> いいね
-          <% end %>
-        <% end %>
-      <% else %>
-        ♡ <%= post.favorites.count %> いいね
-      <% end %>
-      <%= link_to "#{post.comments.count} コメント", post_path(post.id), class: "comments-link" %>
+    <div id="favorite_buttons_<%= post.id %>"class="actions">
+      <%= render "public/shared/favorites", post: post %>
     </div>
 <% end %>
 <%= paginate @posts %>
@@ -55,10 +42,7 @@
 }
 
 .comments-link {
-  color: black; /* 好きな色に変更してください */
-}
-.favorite {
-  color: black; /* 好きな色に変更してください */
+  color: black; 
 }
 
 

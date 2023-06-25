@@ -5,14 +5,11 @@ class Public::FavoritesController < ApplicationController
   def create
     favorite = current_user.favorites.new(post_id: @post.id)
     favorite.save
-    # 投稿一覧画面へリダイレクト
-    redirect_to posts_path
   end
 
   def destroy
     favorite = current_user.favorites.find_by(post_id: @post.id)
     favorite.destroy
-    redirect_to posts_path
   end
   
   private

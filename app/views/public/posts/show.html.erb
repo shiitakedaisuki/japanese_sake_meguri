@@ -57,19 +57,10 @@
   </div>
 </div>
 
-<div class="likes">
-  <% if user_signed_in? && @post.favorited_by?(current_user) %>
-    <%= link_to post_favorites_path(@post), method: :delete, class: "btn btn-like" do %>
-      ♥ <%= @post.favorites.count %> いいね
-    <% end %>
-  <% elsif user_signed_in? %>
-    <%= link_to post_favorites_path(@post), method: :post, class: "btn btn-like" do %>
-      ♡ <%= @post.favorites.count %> いいね
-    <% end %>
-  <% else %>
-    ♡ <%= @post.favorites.count %> いいね
-  <% end %>
-</div>
+  <div id="favorite_buttons_<%= @post.id %>">
+    <%= render "public/shared/favorites", post: @post %>
+  </div>
+
 
 <style>
 .post-details {
