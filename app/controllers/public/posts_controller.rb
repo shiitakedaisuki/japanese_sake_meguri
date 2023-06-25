@@ -27,7 +27,8 @@ class Public::PostsController < ApplicationController
   end
   
   def index
-    @posts = Post.page(params[:page])
+     # .left_joins(:アソシエーション先名).where(結合先のテーブル名: { カラム名: 値 })で退会しているユーザー以外のレビューに絞る
+    @posts = Post.left_joins(:user).where(user: { is_deleted: false }).page(params[:page])
   end
 
   def show
