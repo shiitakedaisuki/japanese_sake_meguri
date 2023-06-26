@@ -1,4 +1,13 @@
 <h1>投稿編集</h1>
+<% if @post.errors.any? %>
+  <div class = "alert">
+    <ul>
+      <% @post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <div class="edit-post-form">
 
   <%= form_with model: @post, url: post_path(@post), method: :patch do |f| %>

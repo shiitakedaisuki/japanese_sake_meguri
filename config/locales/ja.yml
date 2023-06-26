@@ -8,11 +8,11 @@ ja:
       admins: "管理者"
     attributes:
       users:
-        user_name: "ユーザー名"
+        user_name: "ユーザーネーム"
         email: "メールアドレス"
         image: "プロフィール画像"
         password: "パスワード"
-      posts:
+      post:
         name: "お酒の名前"
         review: "レビュー"
         image: "お酒の写真"
