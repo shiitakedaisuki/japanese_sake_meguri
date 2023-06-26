@@ -25,6 +25,12 @@ ja:
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
+        user_name: ユーザーネーム
+      post:
+        name: お酒の名前
+        review: レビュー
+      comment:
+        comment: コメント
     models:
       user: ユーザー
   devise:

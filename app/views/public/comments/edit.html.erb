@@ -1,9 +1,18 @@
+<% if @comment.errors.any? %>
+  <div class = "alert">
+    <ul>
+      <% @comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <div class="edit-comment-form">
   <h2>コメントを編集する</h2>
   <%= form_with model: [@comment.post, @comment], url: post_comment_path(@comment.post, @comment), method: :patch do |f| %>
     <%= f.text_area :comment, rows: '5', placeholder: "Edit your comment" %>
     <div class="submit-button">
-      <%= f.submit "Update Comment", class: "btn btn-outline-secondary" %>
+      <%= f.submit "コメントを更新する", class: "btn btn-outline-secondary" %>
     </div>
   <% end %>
 </div>

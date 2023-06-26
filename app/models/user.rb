@@ -11,6 +11,7 @@ class User < ApplicationRecord
   
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
+  validates :user_name, presence: true
   
   def self.guest
     find_or_create_by!(email: 'guest@example.com') do |user|
@@ -27,7 +28,7 @@ class User < ApplicationRecord
     # プロフィール写真が添付されていない場合
     else
       file_path = Rails.root.join('app/assets/images/no_image.jpg')
-      profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
+      profile_image.attach(io: File.open(file_path), filename: 'no_image.jpg', content_type: 'image/*')
       # variantで画像を表示する処理を行う。
       profile_image.variant(resize_to_limit: [width, height]).processed
     end
