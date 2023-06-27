@@ -24,6 +24,7 @@ class Public::UsersController < ApplicationController
   end
   
   def confirm
+    @user = current_user
   end
     
   def quit

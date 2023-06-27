@@ -64,7 +64,7 @@ h3{
     <% if current_user.email != 'guest@example.com' && @user == current_user %>
       <div class="button-container">
         <%= link_to "プロフィールを編集する", edit_user_path(@user), class: "btn btn-outline-secondary" %>
-        <%= link_to "退会する", users_confirm_path, class: "btn btn-outline-secondary" %>
+        <%= link_to "退会する", confirm_users_path, class: "btn btn-outline-secondary" %>
       </div>
     <% end %>
 </div>
