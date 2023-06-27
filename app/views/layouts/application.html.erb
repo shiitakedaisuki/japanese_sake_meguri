@@ -170,13 +170,18 @@
           <% end %>
          
           <!--ジャンルの表示-->
-         <div class="genre">
-          <% Genre.all.each do |genre| %>
-            <%= link_to genre.name, genre_posts_path(genre), class: "genre-link" %>
+          <!--||でor または　の意味-->
+          <% if user_signed_in? || admin_signed_in? %>
+            <div class="genre">
+              <% Genre.all.each do |genre| %>
+                <%= link_to genre.name, genre_posts_path(genre), class: "genre-link" %>
+              <% end %>
+              <div class="padding2"></div>
+            </div>
           <% end %>
-          <div class="padding2"></div>
-            <%= yield %>
-         </div>
+           
+          <%= yield %>
+          
        
       </main>
       

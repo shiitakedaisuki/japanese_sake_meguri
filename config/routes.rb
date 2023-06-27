@@ -31,9 +31,14 @@ Rails.application.routes.draw do
         resource :favorites, only: [:create, :destroy]
         resources :comments, only: [:create, :edit, :update, :destroy]
       end
-      resources :users
+      resources :users do
+        collection do
+          get "confirm"
+          patch "quit"
+        end
+      end
       get "search" => "searches#search"
-      get "users/confirm"=>"users#confirm", as: 'users_confirm'
+      
     end
     
     # 管理者用 namespaceを使うと、全てのpathにadmin/が最初につく

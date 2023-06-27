@@ -6,7 +6,6 @@
       <% @users.each do |user| %>
         <tr>
           <td><%= user.user_name %>
-          
             <%= link_to user_path(user.id) do %>
               <%= image_tag user.get_profile_image(100, 100), class: "user-profile-image" %>
             <% end %>
