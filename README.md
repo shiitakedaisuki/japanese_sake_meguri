@@ -24,6 +24,9 @@
 - 自分が美味しいと思ったお酒を伝えたい時
 
 ## 設計書
+- 実装機能リスト
+- https://docs.google.com/spreadsheets/d/1FD8J5FiscMOVulvliK19A59MRb2OAISPa-p7ZRLCZ9M/edit#gid=1091086188
+
 
 ## 開発環境
 - OS：Linux(CentOS)
